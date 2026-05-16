@@ -36,7 +36,8 @@ export class SyncController {
   @UsePipes(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }))
   @ApiOperation({
     summary: 'Sync data to cloud',
-    description: 'Synchronizes services, members, attendance, transactions, and health metrics from the desktop app to the cloud database',
+    description:
+      'Synchronizes services, members, attendance, transactions, payment methods, and health metrics from the desktop app to the cloud database',
   })
   @ApiBody({ type: SyncPayloadDto })
   @ApiResponse({
@@ -77,7 +78,7 @@ export class SyncController {
     status: 401,
     description: 'Unauthorized - invalid or missing API key',
   })
-  async getStatus(): Promise<{ status: string; timestamp: string }> {
+  getStatus(): { status: string; timestamp: string } {
     return {
       status: 'ok',
       timestamp: new Date().toISOString(),
@@ -97,7 +98,11 @@ export class SyncController {
     schema: {
       type: 'object',
       properties: {
-        lastSyncAt: { type: 'string', nullable: true, example: '2026-01-17T10:05:36.646Z' },
+        lastSyncAt: {
+          type: 'string',
+          nullable: true,
+          example: '2026-01-17T10:05:36.646Z',
+        },
       },
     },
   })
@@ -127,14 +132,10 @@ export class SyncController {
     status: 401,
     description: 'Unauthorized - invalid or missing API key',
   })
-  async testConnection(): Promise<{ success: boolean; message: string }> {
+  testConnection(): { success: boolean; message: string } {
     return {
       success: true,
       message: 'Connection successful',
     };
   }
 }
-
-
-
-
